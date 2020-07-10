@@ -14,6 +14,7 @@
   },
   "husky": {
     "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
       "commit-msg": "commitlint -e $GIT_PARAMS"
     }
   },
@@ -24,8 +25,15 @@
   "author": "zhangyuhan2016",
   "license": "MIT",
   "devDependencies": {
+    "commitizen": "^4.1.2",
     "commitlint": "^9.0.1",
+    "cz-conventional-changelog": "3.2.0",
     "husky": "^4.2.5",
     "standard-version": "^8.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
