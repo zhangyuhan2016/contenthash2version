@@ -1,0 +1,31 @@
+{
+  "name": "conthash2version",
+  "version": "0.0.1",
+  "description": "Convert the hash to version based on regular expressions",
+  "main": "index.js",
+  "bin": {
+    "hash2version": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "git-cz": "git-cz",
+    "git-release": "standard-version",
+    "git-log": "conventional-changelog "
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $GIT_PARAMS"
+    }
+  },
+  "keywords": [
+    "contenthash",
+    "version"
+  ],
+  "author": "zhangyuhan2016",
+  "license": "MIT",
+  "devDependencies": {
+    "commitlint": "^9.0.1",
+    "husky": "^4.2.5",
+    "standard-version": "^8.0.0"
+  }
+}
