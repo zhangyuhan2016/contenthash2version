@@ -1,6 +1,6 @@
 {
   "name": "conthash2version",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Convert the hash to version based on regular expressions",
   "main": "index.js",
   "bin": {
@@ -8,7 +8,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "git-cz": "git-cz",
     "git-release": "standard-version",
     "git-log": "conventional-changelog "
   },
