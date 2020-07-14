@@ -1,13 +1,13 @@
 {
-  "name": "conthash2version",
+  "name": "contenthash2version",
   "version": "0.0.1",
   "description": "Convert the hash to version based on regular expressions",
   "main": "index.js",
   "bin": {
-    "hash2version": "./bin/index.js"
+    "ch2version": "./bin/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node ./bin/index.js",
     "git-cz": "git-cz",
     "git-release": "standard-version",
     "git-log": "conventional-changelog "
@@ -35,5 +35,12 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^5.1.0",
+    "i18n": "^0.10.0",
+    "inquirer": "^7.3.0",
+    "spinnies": "^0.5.1"
   }
 }

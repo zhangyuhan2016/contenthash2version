@@ -1,0 +1,18 @@
+{
+  "error_noVersion": "读取资源版本参数时出错,请检查参数 --version 是否正确 ？",
+  "error_noInDir": "读取资源目录时出错,请检查 --inDir 参数是否正确 ？",
+  "error_writeConfig": "覆盖配置文件时出错 ！",
+  "error_writeVersion": "写入版本信息时出错,请检查参数 --outVersion 是否正确 ？",
+  "error_delete": "删除文件或目录时出错 ！",
+  "error_replace": "使用版本号替换hash时出错 ！",
+  "error_readConfig": "读取配置文件时出错,请检查参数 --config 是否正确 ？",
+  "tip_writeConfig": "是否将参数写入配置文件 ？",
+  "tip_clearOutDir": "是否清除当前输出目录 ？",
+  "tip_progress": "执行进度: ",
+  "tip_createOutDir": "是否创建输出目录 ？",
+  "tip_update": "当前变更所涉及的资源列表",
+  "wait_progress_version": "正在等待生成资源信息",
+  "wait_progress_write": "正在等待替换代码中的引用",
+  "success_progress_version": "成功生成资源信息",
+  "success_progress_write": "成功替换代码中的引用"
+}

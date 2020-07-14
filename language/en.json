@@ -1,0 +1,18 @@
+{
+	"error_noVersion": "Error reading resource version parameter, please check if the parameter --version is correct ?",
+	"error_noInDir": "Error reading resource directory, please check if the parameter --inDir is correct ?",
+	"error_writeConfig": "Error overwriting configuration file !",
+	"error_writeVersion": "Error writing version information, please check if the parameter --outVersion is correct ?",
+	"error_delete": "Error deleting file or directory !",
+	"error_replace": "Error replacing resource hash with version number !",
+	"error_readConfig": "Error reading configuration file, please check if the parameter --config is correct ?",
+	"tip_writeConfig": "Whether to write parameters to the configuration file ?",
+	"tip_clearOutDir": "Whether to clear the current output directory ?",
+	"tip_progress": "Execution progress: ",
+	"tip_createOutDir": "Whether to create an output directory ?",
+	"tip_update": "List of resources involved in the current change",
+	"wait_progress_version": "Waiting to generate resource information",
+	"wait_progress_write": "Waiting to replace references in code",
+	"success_progress_version": "Successfully generated resource information",
+	"success_progress_write": "Successfully replace references in code"
+}

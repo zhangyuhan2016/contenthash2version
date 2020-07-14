@@ -1,0 +1,13 @@
+{
+  "version": "8000",
+  "inDir": "./dist",
+  "outDir": "./dist-version",
+  "config": "./ch2version.config.json",
+  "outVersion": "./ch2version.version.json",
+  "git": false,
+  "language": "en",
+  "clear": true,
+  "rewrite": false,
+  "prompt": false,
+  "mode": "base"
+}
