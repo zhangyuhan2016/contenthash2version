@@ -7,7 +7,7 @@ function ProgressBar ({
 } = {}) {
   this.render = function ({ completed, total = 100, log = console.log }) {
     const percent = (completed / total).toFixed(4)
-    const gridWidth = Math.floor(percent * barWidth)
+    const gridWidth = Math.floor((percent > 1 ? 1 : percent) * barWidth)
     const fill = new Array(gridWidth).fill(fillChar).join('')
     const bg = new Array(barWidth - gridWidth).fill(bgChar).join('')
     const cmdText = description + fill + bg + ' ' + (100 * percent).toFixed(2) + '% \t \r'

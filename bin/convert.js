@@ -14,19 +14,10 @@ const Spinnies = require('spinnies')
 const LineLog = new Spinnies({ color: 'blue', succeedColor: 'green' })
 let ProgressStyle = new ProgressBar({ description: Language.__('tip_progress') })
 
-function timeout (ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
-}
-
-async function asyncPrint (ms) {
-  await timeout(ms)
-}
-
 class CommandInteraction {
   config = DefaultConfig
   parameters = {}
+  progressValue = 0
 
   constructor (config = DefaultConfig) {
     return this.init(config)
@@ -141,7 +132,7 @@ class CommandInteraction {
       hash: tempHash !== '' ? tempHash[0] : '',
       version: this.config.version,
       md5,
-      git: this.gitInfo
+      git: this.parameters.gitInfo
     }
     return tempInfo
   }
@@ -166,7 +157,7 @@ class CommandInteraction {
   // get version.json file info
   getOldFileInfo (file, tempPathArr) {
     let oldInfo
-    if (!this.parameters.CanBase && this.parameters.isWrite) {
+    if (!this.parameters.CanBase) {
       // console.log(this.parameters, 'p')
       const { BeforeJSON, pendingReplaceJSON } = this.parameters.replaceConfig
       if (tempPathArr.length > 1) {
@@ -187,22 +178,21 @@ class CommandInteraction {
   }
 
   // traverse the file
-  async cycleDir (dirPath = this.parameters.filePath.inDir, progress = { base: 1, now: 0, update: console.log }) {
-    let { base = 1, now = 0, update = console.log } = progress
+  async cycleDir (dirPath = this.parameters.filePath.inDir, progress = { base: 1, update: console.log }) {
+    const { base = 1, update = console.log } = progress
     const FilesJSON = {}
     const nowFiles = await fs.readdirSync(dirPath)
     for (let i = 0; i < nowFiles.length; i++) {
-      const nowProgress = 1 / nowFiles.length
+      const nowProgress = 1 / nowFiles.length * base
       const file = nowFiles[i]
       const fPath = path.join(dirPath, file)
       const isDir = fs.statSync(fPath).isDirectory()
       if (isDir) {
-        const NextFilesJSON = await this.cycleDir(fPath, { base: nowProgress, now, update })
+        const NextFilesJSON = await this.cycleDir(fPath, { base: nowProgress, update })
         FilesJSON[file] = NextFilesJSON
       } else {
-        await asyncPrint(300)
-        now += (nowProgress * base)
-        update(now)
+        this.progressValue += nowProgress
+        update(this.progressValue)
         const tempFile = await this.callFile({
           file,
           dirPath,
@@ -230,7 +220,7 @@ class CommandInteraction {
       tempPath.splice(0, 1)
     }
     const tempPathArr = tempPath.filter(v => v !== '')
-    const oldFileInfo = await this.getOldFileInfo(file, tempPathArr)
+    const oldFileInfo = this.getOldFileInfo(file, tempPathArr)
 
     if (this.parameters.isWrite) {
       const newFilePath = path.resolve(this.config.outDir + nowDirName + '/')
@@ -278,7 +268,7 @@ class CommandInteraction {
       oldFileInfo.hash = tempInfo.hash
       return oldFileInfo
     } else {
-      if (Array.isArray(this.parameters.assets)) {
+      if (!this.parameters.isWrite) {
         let newFileName = tempInfo.name
         const addMinArr = ['.map', '.js', '.css']
         if (addMinArr.includes(path.extname(file)) && tempInfo.hash.length >= 8) {
@@ -343,7 +333,11 @@ class CommandInteraction {
   async getVersionJSON () {
     const config = {}
     const versionJSON = path.resolve(this.config.outVersion)
+    if (this.fsExistsSync(versionJSON)) {
+      this.parameters.replaceConfig.BeforeJSON = JSON.parse(await fs.readFileSync(versionJSON, 'utf8'))
+    }
     LineLog.add('progress', { text: Language.__('wait_progress_version') })
+    this.progressValue = 0
     const res = await this.cycleDir(this.parameters.filePath.inDir, {
       update: function (progress) {
         LineLog.update('progress', { text: ProgressStyle.render({ completed: progress * 100, log: null }) })
@@ -372,10 +366,15 @@ class CommandInteraction {
     LineLog.add('progress-write', { text: Language.__('wait_progress_write') })
     // read or create version.json
     this.parameters.isWrite = false
+    this.parameters.replaceConfig = {
+      BeforeJSON: {},
+      pendingReplaceJSON: {}
+    }
+    this.parameters.assets = []
     this.parameters.replaceConfig = await this.getVersionJSON()
     // replace code
     this.parameters.isWrite = true
-    this.parameters.assets = []
+    this.progressValue = 0
     await this.cycleDir(this.parameters.filePath.inDir, {
       update: function (progress) {
         LineLog.update('progress-write', { text: ProgressStyle.render({ completed: progress * 100, log: null }) })
