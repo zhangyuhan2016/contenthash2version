@@ -68,14 +68,52 @@ config.output
 
 ## 安装
 
-``
+```
+# global
+yarn add contenthash2version -g
+
+# or project
 yarn add contenthash2version -D
-``
+```
 
 ## 使用
 
 ```
-contenthash2version -h
+# global
+ch2version -p
+
+# or project
+
+在package.json中加入引用
+
+"scripts": {
+    "ch2version": "ch2version",
+    ...
+}
+
+yarn run ch2version -p
+```
+
+### 参数
+
+```
+Usage:  ch2version [options] <mode>
+
+execute conversion command in base mode or update mode
+
+Options:
+  -i, --inDir <path>            set the path to read dir, defaults to ./dist
+  -o, --outDir <path>           set the path to output dir, defaults to ./dist-version
+  -c, --config <filePath>       set the path to config.json, defaults to ./ch2version.config.json
+  -ov, --outVersion <filePath>  set the path to output version.json, defaults to ./ch2version.version.json
+  -v, --version <value>         set the output resource version number, defaults to 8000
+  -lang, --language <type>      set the language to display, defaults to en
+  -git, --git                   add git information to the version information, defaults to false
+  -r, --rewrite                 use the current configuration to rewrite the configuration file, defaults to false
+  -clear, --clear               whether to clear the current output directory ? defaults to true
+  -p, --prompt                  enable command line prompt, defaults to false
+  -h, --help                    display help for command
+
 ```
 
 ## 问题
