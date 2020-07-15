@@ -2,13 +2,12 @@
   "name": "contenthash2version",
   "version": "0.0.1",
   "description": "Convert the hash to version based on regular expressions",
-  "main": "index.js",
+  "main": "./bin/index.js",
   "bin": {
     "ch2version": "./bin/index.js"
   },
   "scripts": {
     "test": "node ./bin/index.js",
-    "git-cz": "git-cz",
     "git-release": "standard-version",
     "git-log": "conventional-changelog "
   },
@@ -29,12 +28,19 @@
     "commitlint": "^9.0.1",
     "cz-conventional-changelog": "3.2.0",
     "husky": "^4.2.5",
-    "standard-version": "^8.0.0"
+    "standard-version": "^8.0.1"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhangyuhan2016/contenthash2version.git"
   },
   "dependencies": {
     "chalk": "^4.1.0",
