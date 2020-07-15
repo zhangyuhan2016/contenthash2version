@@ -1,6 +1,8 @@
 ContentHash2Version
 -
 
+[![CircleCI](https://circleci.com/gh/zhangyuhan2016/contenthash2version.svg?style=svg)](https://circleci.com/gh/zhangyuhan2016/contenthash2version)
+
 ## Introduction | [简体中文](/README_CN.md)
 
 Since the output.chunkFilename of webpack cannot be used as a function, the resource version control cannot be completed under special circumstances, so the project was started。

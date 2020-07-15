@@ -1,6 +1,8 @@
 ContentHash2Version
 -
 
+[![CircleCI](https://circleci.com/gh/zhangyuhan2016/contenthash2version.svg?style=svg)](https://circleci.com/gh/zhangyuhan2016/contenthash2version)
+
 ## 介绍
 
 由于webpack的output.chunk 不能作为函数使用，导致特殊情况下资源版本控制无法完成，所以启动了该项目。
