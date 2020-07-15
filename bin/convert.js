@@ -204,6 +204,16 @@ class CommandInteraction {
     return FilesJSON
   }
 
+  // check if the name requires min
+  checkMinName (tempInfo, file) {
+    const addMinArr = ['.map', '.js', '.css']
+    let newFileName = tempInfo.name
+    if (addMinArr.includes(path.extname(file)) && tempInfo.hash.length >= 8) {
+      newFileName = tempInfo.name.replace(/\./, '.min.')
+    }
+    return newFileName
+  }
+
   async callFile ({ file, dirPath, fPath }) {
     // calculation file md5
     const fsHash = crypto.createHash('md5')
@@ -228,7 +238,6 @@ class CommandInteraction {
         fs.mkdirSync(newFilePath, { recursive: true })
       }
       const allowArr = ['.map', '.js', '.css', '.html']
-      const addMinArr = ['.map', '.js', '.css']
       const HashFiles = Object.keys(this.parameters.replaceConfig.pendingReplaceJSON)
       if (allowArr.includes(path.extname(file)) && (/index.html$/.test(file) || HashFiles.includes(tempInfo.hash))) {
         try {
@@ -251,10 +260,7 @@ class CommandInteraction {
               }
             }
           })
-          let newFileName = tempInfo.name
-          if (addMinArr.includes(path.extname(file)) && tempInfo.hash.length >= 8) {
-            newFileName = tempInfo.name.replace(/\./, '.min.')
-          }
+          const newFileName = this.checkMinName(tempInfo, file)
           fs.writeFileSync(path.resolve(newFilePath + '/' + newFileName), result, 'utf8')
         } catch (e) {
           console.log(chalk.red('x ' + Language.__('error_replace')))
@@ -269,11 +275,7 @@ class CommandInteraction {
       return oldFileInfo
     } else {
       if (!this.parameters.isWrite) {
-        let newFileName = tempInfo.name
-        const addMinArr = ['.map', '.js', '.css']
-        if (addMinArr.includes(path.extname(file)) && tempInfo.hash.length >= 8) {
-          newFileName = tempInfo.name.replace(/\./, '.min.')
-        }
+        const newFileName = this.checkMinName(tempInfo, file)
         this.parameters.assets.push(nowDirName + '/' + newFileName)
       }
       return tempInfo

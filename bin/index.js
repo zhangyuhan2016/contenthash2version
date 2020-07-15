@@ -31,8 +31,8 @@ program
   .option('-p, --prompt', 'enable command line prompt, defaults to ' + chalk.yellow.bold('false'))
   .action(function (mode, options) {
     console.log(chalk.cyan(logo))
-    const cmds = ['base', 'update']
-    if (!cmds.includes(mode)) {
+    const AllowCommands = ['base', 'update']
+    if (!AllowCommands.includes(mode)) {
       console.log(chalk.red('x unsupported commands'))
       console.log(chalk`! execute conversion command in {green.bold base} mode or {green.bold update} mode`)
       return false
