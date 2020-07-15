@@ -14,5 +14,14 @@
   "wait_progress_version": "正在等待生成资源信息",
   "wait_progress_write": "正在等待替换代码中的引用",
   "success_progress_version": "成功生成资源信息",
-  "success_progress_write": "成功替换代码中的引用"
+  "success_progress_write": "成功替换代码中的引用",
+  "config_mode": "请选择当前执行模式 ？",
+  "config_version": "请输入当前资源版本 ？",
+  "config_config": "请输入工具配置文件JSON的路径 ？",
+  "config_outVersion": "请输入文件信息JSON的路径 ？",
+  "config_inDir": "请输入代码资源的阅读目录 ？",
+  "config_outDir": "请输入替换代码资源存储目录 ？",
+  "config_rewrite": "是否将当前配置存储在工具配置文件中 ？",
+  "config_clear": "是否清除替换代码资源存储目录 ？",
+  "config_git": "是否在文件信息中插入git信息 ？"
 }

@@ -1,4 +1,5 @@
 'use strict'
+const timeStart = new Date().getTime()
 const inquirer = require('inquirer')
 const execSync = require('child_process').execSync
 const crypto = require('crypto')
@@ -25,10 +26,73 @@ class CommandInteraction {
 
   async init (config) {
     await this.getDefaultConfig(config)
-    this.selectLanguage(this.config.language)
     ProgressStyle = new ProgressBar({ description: Language.__('tip_progress') })
     await this.createConfig()
     return this.createReleaseData()
+  }
+
+  async promptConfig (config = DefaultConfig) {
+    if (config.prompt) {
+      const newConfig = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'mode',
+          default: config.mode,
+          choices: ['mode', 'update'],
+          message: Language.__('config_mode')
+        },
+        {
+          type: 'input',
+          name: 'version',
+          default: config.version,
+          message: Language.__('config_version')
+        },
+        {
+          type: 'input',
+          name: 'config',
+          default: config.config,
+          message: Language.__('config_config')
+        },
+        {
+          type: 'input',
+          name: 'outVersion',
+          default: config.outVersion,
+          message: Language.__('config_outVersion')
+        },
+        {
+          type: 'confirm',
+          name: 'git',
+          default: config.git,
+          message: Language.__('config_git')
+        },
+        {
+          type: 'input',
+          name: 'inDir',
+          default: config.inDir,
+          message: Language.__('config_inDir')
+        },
+        {
+          type: 'input',
+          name: 'outDir',
+          default: config.outDir,
+          message: Language.__('config_outDir')
+        },
+        {
+          type: 'confirm',
+          name: 'clear',
+          default: config.clear,
+          message: Language.__('config_clear')
+        },
+        {
+          type: 'confirm',
+          name: 'rewrite',
+          default: config.rewrite,
+          message: Language.__('config_rewrite')
+        }
+      ])
+      return newConfig
+    }
+    return config
   }
 
   // get defaultConfig
@@ -44,14 +108,16 @@ class CommandInteraction {
     const tempConfig = defaults(conciseOp, DefaultConfig)
     const configPath = path.resolve(tempConfig.config)
     const CanConfig = this.fsExistsSync(configPath)
+    this.selectLanguage(tempConfig.language)
 
     try {
       const config = CanConfig ? JSON.parse(await fs.readFileSync(configPath, 'utf8')) : {}
       const nowConfig = defaults(conciseOp, config, tempConfig)
-      this.config = nowConfig
+      this.config = await this.promptConfig(nowConfig)
     } catch (e) {
       console.log(chalk.red('x ' + Language.__('error_readConfig')))
     }
+    this.selectLanguage(this.config.language)
     if (this.config.git) {
       this.parameters.gitInfo = this.getGitInfo()
     }
@@ -64,17 +130,7 @@ class CommandInteraction {
 
   // ask whether to create a configuration file
   async createConfig () {
-    let CanCreateConfig = {}
-    CanCreateConfig.status = this.config.rewrite
-    if (this.config.prompt) {
-      CanCreateConfig = await inquirer.prompt([{
-        type: 'confirm',
-        name: 'status',
-        default: this.config.rewrite,
-        message: Language.__('tip_writeConfig')
-      }])
-    }
-    if (CanCreateConfig.status) {
+    if (this.config.rewrite) {
       try {
         await fs.writeFileSync(path.resolve(this.config.config), JSON.stringify(this.config, null, 4), 'utf8')
       } catch (e) {
@@ -295,17 +351,7 @@ class CommandInteraction {
     const outDitPath = path.resolve(this.config.outDir)
     if (this.config.outDir) {
       const CanOutDir = this.fsExistsSync(outDitPath)
-      let outDirStatus = {}
-      outDirStatus.clear = this.config.clear
-      if (this.config.prompt) {
-        outDirStatus = await inquirer.prompt([{
-          type: 'confirm',
-          name: 'clear',
-          default: this.config.clear,
-          message: Language.__(CanOutDir ? 'tip_clearOutDir' : 'tip_createOutDir')
-        }])
-      }
-      if (outDirStatus.clear) {
+      if (this.config.clear) {
         CanOutDir && this.rmSync(outDitPath)
         fs.mkdirSync(outDitPath, { recursive: true })
       }
@@ -364,7 +410,6 @@ class CommandInteraction {
     if (!CanConfig) {
       return
     }
-    const timeStart = new Date().getTime()
     LineLog.add('progress-write', { text: Language.__('wait_progress_write') })
     // read or create version.json
     this.parameters.isWrite = false
@@ -387,7 +432,9 @@ class CommandInteraction {
     if (this.parameters.assets.length) {
       console.log(`\n${chalk.cyan.bold(Language.__('tip_update'))}\n\n${this.parameters.assets.map(asset => getLineColor(asset)).join('\n')}`)
     }
-    console.log(`\n✨  Done in ${(new Date().getTime() - timeStart) / 1000}s.\n`)
+    const endTime = new Date().getTime() - timeStart
+    const outTime = (endTime >= 1000) ? (endTime / 1000) + 's' : endTime + 'ms'
+    console.log(chalk.cyan(`✨  Done ch2version core in ${outTime}.`))
   }
 }
 

@@ -14,5 +14,14 @@
 	"wait_progress_version": "Waiting to generate resource information",
 	"wait_progress_write": "Waiting to replace references in code",
 	"success_progress_version": "Successfully generated resource information",
-	"success_progress_write": "Successfully replace references in code"
+	"success_progress_write": "Successfully replace references in code",
+	"config_mode": "Please select the current execution mode ?",
+	"config_version": "Please enter the current resource version ?",
+	"config_config": "Please enter the path of the tool configuration file JSON ?",
+	"config_outVersion": "Please enter the path of the file information JSON ?",
+	"config_inDir": "Please enter the reading directory of the code resource ?",
+	"config_outDir": "Please enter the replacement code resource storage directory ?",
+	"config_rewrite": "Whether to store the current configuration in the tool configuration file ?",
+	"config_clear": "Whether to clear the replacement code resource storage directory ?",
+	"config_git": "Whether to insert git information in the file information ?"
 }
