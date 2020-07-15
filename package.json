@@ -1,6 +1,6 @@
 {
   "name": "contenthash2version",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Convert the hash to version based on regular expressions",
   "main": "index.js",
   "bin": {
