@@ -9,5 +9,22 @@
   "clear": true,
   "rewrite": false,
   "prompt": false,
-  "mode": "base"
+  "mode": "base",
+  "ignore": [
+    ".git/"
+  ],
+  "replaceDomain": {
+    "readFileName": "dist",
+    "baseURL": "/page",
+    "output": [
+      {
+        "origin": "//app.example.com",
+        "fileName": "index_app.html"
+      },
+      {
+        "origin": "//wx.example.cn",
+        "fileName": "index_wx.html"
+      }
+    ]
+  }
 }

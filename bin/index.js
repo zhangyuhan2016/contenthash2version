@@ -4,6 +4,7 @@ const package = require('../package.json')
 const { program } = require('commander')
 const chalk = require('chalk')
 const CommandInteraction = require('./convert')
+const doReplace = require('./replacer')
 
 // logo
 const logo = `
@@ -31,13 +32,22 @@ program
   .option('-p, --prompt', 'enable command line prompt, defaults to ' + chalk.yellow.bold('false'))
   .action(function (mode, options) {
     console.log(chalk.cyan(logo))
-    const AllowCommands = ['base', 'update']
+    const AllowCommands = ['base', 'update', 'replace']
     if (!AllowCommands.includes(mode)) {
       console.log(chalk.red('x unsupported commands'))
       console.log(chalk`! execute conversion command in {green.bold base} mode or {green.bold update} mode`)
       return false
     }
     options.mode = mode
-    return new CommandInteraction(options)
+
+    switch (mode) {
+      case AllowCommands[2]: {
+        doReplace()
+        break
+      }
+      default: {
+        return new CommandInteraction(options)
+      }
+    }
   })
   .parse(process.argv)
