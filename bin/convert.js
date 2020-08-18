@@ -245,9 +245,11 @@ class CommandInteraction {
       const isDir = fs.statSync(fPath).isDirectory()
       
       // 忽略文件或者文件夹
-      const ignoreArr = this.config.ignore.map(v => path.resolve(this.config.inDir, v))
-      if (ignoreArr && Array.isArray(ignoreArr) && fPath.includes(ignoreArr[0])) {
-        continue
+      if (Array.isArray(this.config.ignore)) {
+        const ignoreArr = this.config.ignore.map(v => path.resolve(this.config.inDir, v))
+        if (ignoreArr && Array.isArray(ignoreArr) && fPath.includes(ignoreArr[0])) {
+          continue
+        }
       }
 
       if (isDir) {
