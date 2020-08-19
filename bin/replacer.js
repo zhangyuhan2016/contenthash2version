@@ -4,8 +4,8 @@ const path = require('path')
 const defaultConfig = require('./config.json')
 
 const config = {
-  readFileName: 'dist',
-  baseURL: '/page',
+  readPath: 'dist',
+  baseURL: '/page/',
   templateName: 'index.html',
   urlLocal: '/local/assets',
   output: [
@@ -22,17 +22,18 @@ const config = {
 
 // 将index.html中的静态资源替换为conf中的路径
 const replacerHtmlAssets = config => {
-  fs.readFile(path.resolve(`${config.readFileName}/${config.templateName}`), 'utf8', function(err, files) {
+  fs.readFile(path.resolve(`${config.readPath}/${config.templateName}`), 'utf8', function(err, files) {
+    if (!files) return console.log('找不到文件')
     config.output.forEach(function (item, index) {
-      let replaced = files.replace(new RegExp(`${config.baseURL}`, 'g'), `${item.origin}${config.readFileName}`)
+      let replaced = files.replace(new RegExp(`${config.baseURL}`, 'g'), `${item.origin}${config.baseURL}`)
       // 在文件中部分 标签 前加换行，避免被正则贪婪匹配全部匹配到
       replaced = replaced.replace(/(<[a-z])/g, `\n$1`)
       replaced = replaced.replace(/script(.*?)src=\/(.*)\/(.*).min.js/g, `script$1src=${item.origin}${config.urlLocal}/$3.min.js`)
       // 将前面添加的换行去掉
       replaced = replaced.replace(/\n/g, '')
       
-      fs.writeFileSync(path.resolve(`${config.readFileName}/${item.fileName}`), replaced, 'utf8')
-      console.log('%s 静态资源路径替换完成', item.fileName)
+      fs.writeFileSync(path.resolve(`${config.readPath}/${item.fileName}`), replaced, 'utf8')
+      console.log('%s 替换完成', item.fileName)
     })
   })
 }

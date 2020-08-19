@@ -134,15 +134,17 @@ Options:
       // 如下:
       {
         "replaceDomain": {
-          "filePath": "dist",
+          "readPath": "dist",
+          "baseURL": "/page/",
+          "urlLocal": "/local/assets",
           "output": [
             {
-              origin: '//app.example.com',
-              fileName: 'index_app.html'
+              "origin": "//app.example.com",
+              "fileName": "index_app.html"
             },
             {
-              origin: '//wx.example.cn',
-              fileName: 'index_wx.html'
+              "origin": "//wx.example.cn",
+              "fileName": "index_wx.html"
             }
           ]
         }
