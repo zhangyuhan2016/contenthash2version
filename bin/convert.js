@@ -16,11 +16,11 @@ const LineLog = new Spinnies({ color: 'blue', succeedColor: 'green' })
 let ProgressStyle = new ProgressBar({ description: Language.__('tip_progress') })
 
 class CommandInteraction {
-  config = DefaultConfig
-  parameters = {}
-  progressValue = 0
-
   constructor (config = DefaultConfig) {
+    this.config = DefaultConfig
+    this.parameters = {}
+    this.progressValue = 0
+
     return this.init(config)
   }
 
@@ -38,7 +38,7 @@ class CommandInteraction {
           type: 'list',
           name: 'mode',
           default: config.mode,
-          choices: ['mode', 'update'],
+          choices: ['base', 'update'],
           message: Language.__('config_mode')
         },
         {
@@ -243,6 +243,15 @@ class CommandInteraction {
       const file = nowFiles[i]
       const fPath = path.join(dirPath, file)
       const isDir = fs.statSync(fPath).isDirectory()
+      
+      // 忽略文件或者文件夹
+      if (Array.isArray(this.config.ignore)) {
+        const ignoreArr = this.config.ignore.map(v => path.resolve(this.config.inDir, v))
+        if (ignoreArr && Array.isArray(ignoreArr) && fPath.includes(ignoreArr[0])) {
+          continue
+        }
+      }
+
       if (isDir) {
         const NextFilesJSON = await this.cycleDir(fPath, { base: nowProgress, update })
         FilesJSON[file] = NextFilesJSON

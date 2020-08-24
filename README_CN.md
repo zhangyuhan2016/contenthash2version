@@ -118,6 +118,39 @@ Options:
 
 ```
 
+### 独立命令
+
++ `ch2version replace`
+
+  - 功能：替换html引入的静态资源的域名
+
+  + 默认和自定义配置：
+
+    + 默认读`config.json`中的`replaceDomain`
+
+    + 如果需要自定义，则在项目根目录创建`ch2version.config.json`
+
+      ```json
+      // 如下:
+      {
+        "replaceDomain": {
+          "readPath": "dist",
+          "baseURL": "/page/",
+          "urlLocal": "/local/assets",
+          "output": [
+            {
+              "origin": "//app.example.com",
+              "fileName": "index_app.html"
+            },
+            {
+              "origin": "//wx.example.cn",
+              "fileName": "index_wx.html"
+            }
+          ]
+        }
+      }
+      ```
+
 ## 问题
 
 如有疑问或需要支持，请使用issues。
