@@ -279,8 +279,8 @@ class CommandInteraction {
 
     // file information collation
     const tempInfo = this.getFileInfo(file, md5)
-    const tempPath = dirPath.replace(this.parameters.filePath.inDir, '').split('/')
-    const nowDirName = tempPath.join('/')
+    const tempPath = dirPath.replace(this.parameters.filePath.inDir, '').split(path.sep)
+    const nowDirName = tempPath.join(path.sep)
     tempPath.push(tempInfo.name)
     if (tempPath.length > 2) {
       tempPath.splice(0, 1)
@@ -289,7 +289,7 @@ class CommandInteraction {
     const oldFileInfo = this.getOldFileInfo(file, tempPathArr)
 
     if (this.parameters.isWrite) {
-      const newFilePath = path.resolve(this.config.outDir + nowDirName + '/')
+      const newFilePath = path.resolve(this.config.outDir + nowDirName + path.sep)
       if (!this.fsExistsSync(newFilePath)) {
         fs.mkdirSync(newFilePath, { recursive: true })
       }
@@ -317,13 +317,13 @@ class CommandInteraction {
             }
           })
           const newFileName = this.checkMinName(tempInfo, file)
-          fs.writeFileSync(path.resolve(newFilePath + '/' + newFileName), result, 'utf8')
+          fs.writeFileSync(path.resolve(newFilePath + path.sep + newFileName), result, 'utf8')
         } catch (e) {
           console.log(chalk.red('x ' + Language.__('error_replace')))
           console.log(e)
         }
       } else {
-        fs.copyFileSync(fPath, path.resolve(newFilePath + '/' + tempInfo.name))
+        fs.copyFileSync(fPath, path.resolve(newFilePath + path.sep + tempInfo.name))
       }
     }
     if (tempInfo.md5 === (oldFileInfo ? oldFileInfo.md5 : false)) {
@@ -332,7 +332,7 @@ class CommandInteraction {
     } else {
       if (!this.parameters.isWrite) {
         const newFileName = this.checkMinName(tempInfo, file)
-        this.parameters.assets.push(nowDirName + '/' + newFileName)
+        this.parameters.assets.push(nowDirName + path.sep + newFileName)
       }
       return tempInfo
     }
