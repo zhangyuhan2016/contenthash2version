@@ -9,7 +9,9 @@
   "scripts": {
     "test": "node ./bin/index.js",
     "git-release": "standard-version",
-    "git-log": "conventional-changelog "
+    "git-log": "conventional-changelog ",
+    "prepare": "husky install",
+    "create-hook": "husky add .husky/pre-commit \"npm test\""
   },
   "husky": {
     "hooks": {
@@ -24,11 +26,11 @@
   "author": "zhangyuhan2016",
   "license": "MIT",
   "devDependencies": {
-    "commitizen": "^4.1.2",
-    "commitlint": "^9.0.1",
-    "cz-conventional-changelog": "3.2.0",
-    "husky": "^4.2.5",
-    "standard-version": "^9.0.0"
+    "commitizen": "^4.2.4",
+    "commitlint": "^16.2.1",
+    "cz-conventional-changelog": "3.3.0",
+    "husky": "^7.0.4",
+    "standard-version": "^9.3.2"
   },
   "config": {
     "commitizen": {
@@ -43,10 +45,10 @@
     "url": "https://github.com/zhangyuhan2016/contenthash2version.git"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
-    "commander": "^5.1.0",
-    "i18n": "^0.10.0",
-    "inquirer": "^7.3.0",
+    "chalk": "^4.1.2",
+    "commander": "^9.0.0",
+    "i18n": "^0.14.2",
+    "inquirer": "^8.2.1",
     "spinnies": "^0.5.1"
   }
 }
