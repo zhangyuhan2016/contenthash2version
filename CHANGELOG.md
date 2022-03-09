@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/zhangyuhan2016/contenthash2version/compare/v0.1.4...v0.1.6) (2022-03-09)
+
+
+### Features
+
+* update devDependencies ([9f318de](https://github.com/zhangyuhan2016/contenthash2version/commit/9f318de5f81a3d6942785b531b3ce743c6a9cefe))
+
 ### [0.1.4](https://github.com/zhangyuhan2016/contenthash2version/compare/v0.1.2...v0.1.4) (2020-08-24)
 
 
